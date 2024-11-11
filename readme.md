@@ -1,3 +1,3 @@
-## RAG Framewrok (FRAG)
+## Framewrok for RAG (FRAG)
 
 work in progress 
