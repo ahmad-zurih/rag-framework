@@ -9,7 +9,7 @@ raw_db = "/home/ahmad-unibe/gutenberg_200"  #root directory to where raw documen
 
 db_diretory = os.path.expanduser('~') + '/.db'
 
-chunk_size = 200
+chunk_size = 30
 
 tokenizer_model = "xlm-roberta-base"
 

@@ -1,6 +1,9 @@
 import os
 import pdfplumber
-from transformers import AutoTokenizer
+import nltk
+
+
+nltk.download('punkt', quiet=True)
 
 
 def get_file_paths(root_dir: str, file_extention: str) -> list[str]:
@@ -63,50 +66,35 @@ def read_pdf_file(file_path: str) -> str:
     return "\n".join(text_content)
 
 
-def tokenize_text(text: str, model_name: str) -> list[str]:
+def split_text_into_sentences(text: str) -> list[str]:
     """
-    Tokenizes a given text using a specified multilingual tokenizer model, removing any special characters 
-    (such as ▁ from SentencePiece) to provide clean tokens.
+    Splits the given text into a list of sentences using NLTK's sentence tokenizer.
 
     Args:
-        text (str): The input text to tokenize.
-        model_name (str): The name of the multilingual model to use for tokenization.
-                          Defaults to "xlm-roberta-base" for broad language coverage.
+        text (str): The input text to split into sentences.
 
     Returns:
-        list[str]: A list of clean tokens representing the tokenized text.
+        list[str]: A list of sentences.
     """
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    
-    tokens = tokenizer.tokenize(text)
-    
-    # Remove special characters like ▁ from tokens
-    clean_tokens = [token.replace("▁", "") for token in tokens]
-    
-    return clean_tokens
+    sentences = nltk.sent_tokenize(text)
+    return sentences
 
 
-def chunk_text(input_tokens: list[str], chunk_size: int) -> list[str]:
+def chunk_sentences(sentences: list[str], chunk_size: int) -> list[str]:
     """
-    Splits a list of tokens into chunks based on a specified chunk size, then joins each chunk of tokens into a single string.
+    Groups a list of sentences into chunks, each containing up to `chunk_size` sentences.
 
     Args:
-        input_tokens (list[str]): A list of tokens (typically words or subwords) that represent the text to be chunked.
-        chunk_size (int): The maximum number of tokens allowed per chunk.
+        sentences (list[str]): A list of sentences.
+        chunk_size (int): The number of sentences per chunk.
 
     Returns:
-        list[str]: A list of strings, where each string is a chunk containing up to `chunk_size` tokens joined together.
-                   If the total number of tokens is less than or equal to `chunk_size`, returns a single chunk.
+        list[str]: A list of text chunks, each containing up to `chunk_size` sentences.
     """
-    if len(input_tokens) <= chunk_size:
-        return [" ".join(input_tokens)]
-    
     chunks = []
-    
-    for i in range(0, len(input_tokens), chunk_size):
-        chunk = " ".join(input_tokens[i:i + chunk_size])
+    for i in range(0, len(sentences), chunk_size):
+        chunk = " ".join(sentences[i:i + chunk_size])
         chunks.append(chunk)
-    
     return chunks
 
 
