@@ -3,4 +3,4 @@
 work in progress 
 
 
-![RAG Framework Diagram](diagram/RAG_Framework.svg)
+![RAG Framework Diagram](docs/diagram/RAG_Framework.svg)
