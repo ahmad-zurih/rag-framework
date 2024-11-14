@@ -13,6 +13,7 @@ from config.embedding_config import (
     model_name,
     vector_db,
     raw_db,
+    data_language,
     db_diretory,
     chunk_size,  
     documents_type
@@ -59,7 +60,7 @@ def main():
             continue
 
         # Step 3: Split text into sentences
-        sentences = split_text_into_sentences(text)
+        sentences = split_text_into_sentences(text, data_language)
 
         # Step 4: Chunk sentences into groups
         chunks = chunk_sentences(sentences, chunk_size)

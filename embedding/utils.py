@@ -66,17 +66,18 @@ def read_pdf_file(file_path: str) -> str:
     return "\n".join(text_content)
 
 
-def split_text_into_sentences(text: str) -> list[str]:
+def split_text_into_sentences(text: str, language: str) -> list[str]:
     """
     Splits the given text into a list of sentences using NLTK's sentence tokenizer.
 
     Args:
         text (str): The input text to split into sentences.
+        language (str): The language of the text for the sentence tokenizer
 
     Returns:
         list[str]: A list of sentences.
     """
-    sentences = nltk.sent_tokenize(text)
+    sentences = nltk.sent_tokenize(text, language=language)
     return sentences
 
 
