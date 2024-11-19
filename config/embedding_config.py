@@ -11,10 +11,8 @@ raw_db = "/home/ahmad-unibe/gutenberg_200"  #root directory to where raw documen
 
 data_language = "english" #variable for the tokenizer. Supported language = ['czech', 'danish', 'dutch', 'english', 'estonian', 'finnish', 'french', 'german' ,'greek' ,'italian' ,'norwegian', 'polish' ,'portuguese', 'russian' ,'slovene','spanish', 'swedish', 'turkish']
 
-db_diretory = os.path.expanduser('~') + '/.db'
+db_directory = os.path.join(os.path.expanduser('~'), '.db')  #default. Change it to where you want to store the vector DB
 
 chunk_size = 30
-
-tokenizer_model = "xlm-roberta-base"
 
 documents_type = 'txt'  #valid options: 'txt', 'pdf'
