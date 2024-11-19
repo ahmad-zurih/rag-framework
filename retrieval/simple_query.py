@@ -9,14 +9,14 @@ parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(parent_dir)
 
 
-from config.embedding_config import model_name, db_diretory
+from config.embedding_config import model_name, db_diretory, collection_name
 
 
 # Initialize the ChromaDB persistent client
 client = chromadb.PersistentClient(path=db_diretory)
 
 # Get the collection
-collection = client.get_collection(name="document_embeddings")
+collection = client.get_collection(name=collection_name)
 
 # Define your query text
 query_text = "I am looking for books about war"
