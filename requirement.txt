@@ -68,3 +68,7 @@ chromadb==0.5.18
 #nltk 
 
 nltk==3.9.1
+
+
+#ollama
+ollama==0.3.3
