@@ -1,7 +1,7 @@
 import chromadb
 from sentence_transformers import SentenceTransformer
 
-class Retriever:
+class ChromaRetriever:
     def __init__(self, embedding_model: str, db_path: str, db_collection: str, n_results: int) -> None:
         self.embedding_model = embedding_model
         self.db_path = db_path
