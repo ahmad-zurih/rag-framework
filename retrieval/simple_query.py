@@ -9,11 +9,11 @@ parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(parent_dir)
 
 
-from config.embedding_config import model_name, db_diretory, collection_name
+from config.embedding_config import model_name, db_directory, collection_name
 
 
 # Initialize the ChromaDB persistent client
-client = chromadb.PersistentClient(path=db_diretory)
+client = chromadb.PersistentClient(path=db_directory)
 
 # Get the collection
 collection = client.get_collection(name=collection_name)
