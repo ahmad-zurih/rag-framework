@@ -26,6 +26,32 @@ class ChromaRetriever:
         except Exception as e:
             print(f"An error occurred during retrieval: {e}")
             return None
+        
+
+    def format_results_for_prompt(self, results):
+        """
+        Formats the retrieval results into a string suitable for the Responder's prompt.
+
+        Args:
+            results: The dictionary returned by the retrieve method.
+
+        Returns:
+            A formatted string containing the retrieved data.
+        """
+        if not results:
+            return "No relevant data found."
+
+        formatted_data = ""
+        for idx, (doc, metadata) in enumerate(zip(results['documents'][0], results['metadatas'][0])):
+            chunk_id = metadata.get('chunk_id', 'N/A')
+            file_name = metadata.get('file_name', 'N/A')
+            formatted_data += f"Document {idx + 1}:\n"
+            formatted_data += f"Document ID: {chunk_id}\n"
+            formatted_data += f"File Name: {file_name}\n"
+            formatted_data += f"Content:\n{doc}\n"
+            formatted_data += "-" * 80 + "\n"
+
+        return formatted_data
 
     
     
