@@ -28,7 +28,7 @@ def main():
             formated_result = retriever.format_results_for_prompt(search_results)
 
             responder = Responder(data=formated_result, model=llm_model, prompt_template=prompt, query=user_query)
-            print(responder.generate_response())
+            responder.stream_response()
 
 
 if __name__ == "__main__":
