@@ -41,6 +41,26 @@ class Responder:
         except Exception as e:
             raise RuntimeError(f"An error occurred during response generation: {e}")
         
+
+    def stream_response(self):
+        """
+        Stream a response based on the query and data for a chatbot environment.
+        """
+        self._check_model()
+        try:
+            response_generator = ollama.generate(model=self.model, prompt=self.prompt, stream=True)
+            
+            for chunk in response_generator:
+                print(chunk['response'], end='', flush=True)
+            print("\n")
+            return ""
+
+        except KeyError as e:
+            raise ValueError(f"Response does not contain expected key: {e}")
+        except Exception as e:
+            raise RuntimeError(f"An error occurred during response generation: {e}")
+        
+        
         
     def _check_model(self):
         """
