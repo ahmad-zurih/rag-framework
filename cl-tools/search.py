@@ -26,12 +26,15 @@ def main():
     parser = create_argument_parser()
     args = parser.parse_args()
 
-    retriever = ChromaRetriever(embedding_model=model_name, db_path=db_directory, db_collection=collection_name, n_results=args.number_results)
+    retriever = ChromaRetriever(embedding_model=model_name, 
+                                db_path=db_directory, 
+                                db_collection=collection_name, 
+                                n_results=args.number_results)
 
     while True:
         query = str(input("Type a query to search the DB. Type 'quit' to exit:  "))
 
-        if query == 'quit':
+        if query.lower() == 'quit':
             break
         else:
             results = retriever.retrieve(query)
