@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #4e90fe;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .results {
+            margin-top: 20px;
+            border-top: 2px solid #ddd;
+            padding-top: 20px;
+        }
+        .result-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .metadata {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search The Vector DB</h1>
+
+    <form action="" method="post">
+        <div class="form-group">
+            {% csrf_token %}
+            <label for="query">Enter your query:</label>
+            <input class="form-control" type="text" id="query" name="query" placeholder="Enter your query" value="{{ query }}">
+            <br>
+            <label for="n_results">Number of Results:</label>
+            <input class="form-control" type="number" id="n_results" name="n_results" value="{{ n_results|default:5 }}">
+            <br>
+            <input style="background-color: #4e90fe; font-size: 14px; font-weight: bold;" type="submit" value="Search">
+        </div>
+    </form>
+
+    <br><br>
+
+    {% if submitted %}
+    {% if data %}
+        <div class="results">
+            <h2>Search Results</h2>
+            {% for result in data %}
+                <div class="result-item">
+                    <p><strong>Content:</strong> {{ result.content }}</p>
+                    <p><strong>File Name:</strong> {{ result.file_name }}</p>
+                    <p><strong>Chunk ID:</strong> {{ result.chunk_id }}</p>
+                    <p><strong>Distance:</strong> {{ result.distance }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No results found or an error occurred during retrieval.</p>
+    {% endif %}
+{% endif %}
+
+</body>
+</html>
