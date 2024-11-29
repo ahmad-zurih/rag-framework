@@ -4,6 +4,9 @@ from retrieval.main import ChromaRetriever
 from config.embedding_config import model_name, db_directory, collection_name
 
 
+def home(request):
+    return render(request, 'rag_app/home.html')
+
 
 def search(request):
     submitted = False
@@ -22,7 +25,6 @@ def search(request):
                 n_results=n_results
             )
             raw_results = retriever.retrieve(query)
-            print(raw_results)
 
             # Process raw results into a template-friendly format
             documents = raw_results.get("documents", [[]])[0]
