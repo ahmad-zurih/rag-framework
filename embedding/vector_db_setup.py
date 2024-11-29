@@ -14,9 +14,10 @@ from config.embedding_config import (
     vector_db,
     raw_db,
     data_language,
-    db_diretory,
+    db_directory,
     chunk_size,  
-    documents_type
+    documents_type,
+    collection_name
 )
 from embedding.utils import (
     get_file_paths,
@@ -27,7 +28,7 @@ from embedding.utils import (
 )
 
 # Initialize ChromaDB client
-client = chromadb.PersistentClient(path=db_diretory)
+client = chromadb.PersistentClient(path=db_directory)
 
 def main():
     print("\n--- Embedding and Storing Documents in ChromaDB ---")
@@ -35,7 +36,7 @@ def main():
     print(f"Document Type: {documents_type}")
     print(f"Chunk Size (sentences per chunk): {chunk_size}")
     print(f"Raw Data Directory: {raw_db}")
-    print(f"Vector Database Directory: {db_diretory}\n")
+    print(f"Vector Database Directory: {db_directory}\n")
     print(f"Vector Database is: {vector_db}\n")
 
     # Step 1: Load documents
@@ -47,7 +48,7 @@ def main():
     max_seq_length = embedding_model.max_seq_length  # Typically 512
 
     # Create or retrieve the collection in ChromaDB
-    collection = client.get_or_create_collection("document_embeddings")
+    collection = client.get_or_create_collection(collection_name)
 
     for file_path in tqdm(file_paths, desc="Processing documents"):
         # Step 2: Read content based on file type
