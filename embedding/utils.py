@@ -6,25 +6,26 @@ import nltk
 nltk.download('punkt', quiet=True)
 
 
-def get_file_paths(root_dir: str, file_extention: str) -> list[str]:
+def get_file_paths(root_dir: str, file_extensions: list[str]) -> list[str]:
     """
-    Retrieves a list of paths to all .txt files in the given root directory and its subdirectories.
+    Retrieves a list of paths to all files with specified extensions in the given root directory and its subdirectories.
 
     Args:
-        root_dir (str): The root directory to search for .txt files.
-        file_extention (str): the type of files to retrieve. For example "txt", "pdf"
+        root_dir (str): The root directory to search for files.
+        file_extensions (list[str]): A list of file extensions to retrieve. For example, ["txt", "pdf"]
 
     Returns:
-        List[str]: A list of file paths to all .txt files found within the root directory and its subdirectories.
+        List[str]: A list of file paths to all matching files found within the root directory and its subdirectories.
     """
-    txt_file_paths = []
+    file_paths = []
     
     for dirpath, _, filenames in os.walk(root_dir):
         for filename in filenames:
-            if filename.endswith(file_extention):
-                txt_file_paths.append(os.path.join(dirpath, filename))
+            if any(filename.endswith(f".{ext}") for ext in file_extensions):
+                file_paths.append(os.path.join(dirpath, filename))
     
-    return txt_file_paths
+    return file_paths
+
 
 
 def read_text_file(file_path: str) -> str:

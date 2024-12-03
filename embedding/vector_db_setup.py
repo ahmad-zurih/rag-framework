@@ -16,7 +16,6 @@ from config.embedding_config import (
     data_language,
     db_directory,
     chunk_size,  
-    documents_type,
     collection_name
 )
 from embedding.utils import (
@@ -33,15 +32,14 @@ client = chromadb.PersistentClient(path=db_directory)
 def main():
     print("\n--- Embedding and Storing Documents in ChromaDB ---")
     print(f"Embedding Model: {model_name}")
-    print(f"Document Type: {documents_type}")
     print(f"Chunk Size (sentences per chunk): {chunk_size}")
     print(f"Raw Data Directory: {raw_db}")
     print(f"Vector Database Directory: {db_directory}\n")
     print(f"Vector Database is: {vector_db}\n")
 
-    # Step 1: Load documents
-    file_paths = get_file_paths(raw_db, f".{documents_type}")
-    print(f"Found {len(file_paths)} {documents_type.upper()} files to process.\n")
+    # Step 1: Load documents (txt and pdf)
+    file_paths = get_file_paths(raw_db, ["txt", "pdf"])
+    print(f"Found {len(file_paths)} files to process.\n")
 
     # Initialize embedding model
     embedding_model = SentenceTransformer(model_name)
@@ -52,12 +50,12 @@ def main():
 
     for file_path in tqdm(file_paths, desc="Processing documents"):
         # Step 2: Read content based on file type
-        if documents_type == 'txt':
+        if file_path.endswith('.txt'):
             text = read_text_file(file_path)
-        elif documents_type == 'pdf':
+        elif file_path.endswith('.pdf'):
             text = read_pdf_file(file_path)
         else:
-            print(f"Unsupported document type: {documents_type}")
+            print(f"Unsupported file type: {file_path}")
             continue
 
         # Step 3: Split text into sentences
