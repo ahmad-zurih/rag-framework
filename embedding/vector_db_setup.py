@@ -42,8 +42,8 @@ def main():
     print(f"Found {len(file_paths)} files to process.\n")
 
     # Initialize embedding model
-    embedding_model = SentenceTransformer(model_name)
-    max_seq_length = embedding_model.max_seq_length  # Typically 512
+    embedding_model = SentenceTransformer(model_name, trust_remote_code=True)
+    max_seq_length = embedding_model.max_seq_length  # Typically 512 for older models. Newer ones have larger input size
 
     # Create or retrieve the collection in ChromaDB
     collection = client.get_or_create_collection(collection_name)

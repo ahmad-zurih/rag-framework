@@ -10,7 +10,7 @@ class ChromaRetriever:
         self.db_path = db_path
         self.db_collection = db_collection
         self.n_results = n_results
-        self.model = SentenceTransformer(self.embedding_model)
+        self.model = SentenceTransformer(self.embedding_model, trust_remote_code=True)
         self.client = chromadb.PersistentClient(path=self.db_path)
         self.collection = self.client.get_collection(name=self.db_collection)
 
