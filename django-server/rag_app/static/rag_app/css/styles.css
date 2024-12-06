@@ -1,0 +1,267 @@
+
+
+h1 {
+    text-align: center;
+}
+
+/* Style the navigation bar */
+nav {
+    background-color: #021330;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 18px;
+}
+
+.navbar .nav-links a:hover {
+    text-decoration: underline;
+}
+
+/* Dynamic content styling */
+.content {
+    padding: 20px;
+    position: flex;
+}
+
+/* Footer styles for absolute positioning */
+.footer-absolute {
+    background-color: #021330; /* Deep brown */
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer styles for flexible positioning */
+.footer-flex {
+    background-color: #021330; /* Deep brown */
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* General body styling */
+body {
+    background-color: #5e8cf6;
+    color: #e4e4f0; /* Light text for readability */
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Home container */
+.home-container {
+    text-align: center;
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
+/* Main heading */
+.home-container h1 {
+    font-size: 3rem;
+    color: #021330; /* Vibrant blue for AI-like aesthetics */
+    margin-bottom: 10px;
+}
+
+/* Subtitle styling */
+.subtitle {
+    font-size: 1.5rem;
+    color: #030309; /* Soft light-blue accent */
+    margin-bottom: 40px;
+}
+
+/* Features section */
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.feature {
+    background: #060619; 
+    border: 1px solid #021330;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature h2 {
+    font-size: 1.8rem;
+    color: #e4e4f0;
+    margin-bottom: 15px;
+}
+
+.feature p {
+    font-size: 1rem;
+    color: #cfcfe0;
+    line-height: 1.5;
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Call to action button */
+.cta {
+    margin-top: 50px;
+}
+
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(90deg, #021330, #021330);
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+    background: linear-gradient(90deg, #6b7efe, #4e90fe);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Search container */
+.search-container {
+    text-align: center;
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
+/* Main heading */
+.search-container h1 {
+    font-size: 3rem;
+    color: #021330; /* Vibrant blue */
+    margin-bottom: 10px;
+}
+
+/* Subtitle styling */
+.search-container .subtitle {
+    font-size: 1.5rem;
+    color: #030309; /* Soft grayish blue */
+    margin-bottom: 40px;
+}
+
+/* Search form styling */
+.search-form {
+    margin: 0 auto;
+    max-width: 500px;
+    background: #060619; /* Dark background */
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-label {
+    font-size: 1.1rem;
+    color: #e4e4f0;
+    text-align: left;
+}
+
+.form-control {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #021330;
+    border-radius: 5px;
+    background-color: #030309;
+    color: white;
+}
+
+.form-control::placeholder {
+    color: #a0a0c0;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #4e90fe;
+    box-shadow: 0 0 5px rgba(78, 144, 254, 0.5);
+}
+
+/* Results section */
+.results {
+    margin-top: 40px;
+}
+
+.results h2 {
+    font-size: 2rem;
+    color: #4e90fe;
+    margin-bottom: 20px;
+}
+
+.result-item {
+    background: #021330;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.result-item p {
+    color: #cfcfe0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.result-item strong {
+    color: #4e90fe;
+}
+
+.no-results {
+    color: #e4e4f0;
+    font-size: 1.2rem;
+    margin-top: 20px;
+}
+
+/* CTA Button */
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(90deg, #021330, #4e90fe);
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.cta-button:hover {
+    background: linear-gradient(90deg, #6b7efe, #4e90fe);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+

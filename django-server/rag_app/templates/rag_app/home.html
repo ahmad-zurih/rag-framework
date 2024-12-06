@@ -3,8 +3,25 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<div class="home-container">
+    <h1>Welcome to FRAG</h1>
+    <p class="subtitle">Framework for Retrieval Augmented Generation</p>
 
-    <h1>FRAG (Framework for retrieval Augmented Generation)</h1>
+    <div class="features">
+        <div class="feature">
+            <h2>Vector Database Search</h2>
+            <p>Perform lightning-fast searches across large-scale, high-dimensional datasets with our cutting-edge vector search engine.</p>
+        </div>
+        <div class="feature">
+            <h2>RAG Search</h2>
+            <p>Enhance your queries with retrieval-augmented generation, leveraging context-aware responses powered by advanced AI models.</p>
+        </div>
+    </div>
 
-
+    <div class="cta">
+        <a href="{% url 'search' %}" class="cta-button">Start Searching</a>
+        <a href="#" class="cta-button">Start Chatting</a>
+    </div>
+</div>
 {% endblock %}
+

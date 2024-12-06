@@ -5,7 +5,8 @@ from config.embedding_config import model_name, db_directory, collection_name
 
 
 def home(request):
-    return render(request, 'rag_app/home.html')
+    footer_class =  'footer-absolute'
+    return render(request, 'rag_app/home.html', {'footer_class': footer_class,})
 
 
 def search(request):
@@ -41,13 +42,15 @@ def search(request):
 
         except Exception as e:
             print(f"Error during retrieval: {e}")
+        footer_class = 'footer-flex' if submitted else 'footer-absolute'
 
         return render(
             request,
             "rag_app/search.html",
-            {"data": formatted_results, "submitted": submitted, "query": query, "n_results": n_results},
+            {"data": formatted_results, "submitted": submitted, "query": query, "n_results": n_results, 'footer_class': footer_class,},
         )
+    footer_class = 'footer-flex' if submitted else 'footer-absolute'
 
-    return render(request, "rag_app/search.html", {"data": formatted_results, "submitted": submitted})
+    return render(request, "rag_app/search.html", {"data": formatted_results, "submitted": submitted, 'footer_class': footer_class,})
     
 

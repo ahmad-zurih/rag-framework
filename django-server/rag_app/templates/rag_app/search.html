@@ -3,38 +3,56 @@
 {% block title %}Search{% endblock %}
 
 {% block content %}
-<h1>Search The Vector DB</h1>
+<div class="search-container">
+    <h1>Vector Database Search</h1>
+    <p class="subtitle">Empower your queries with state-of-the-art retrieval capabilities</p>
 
-<form action="" method="post">
-    <div class="form-group">
-        {% csrf_token %}
-        <label for="query">Enter your query:</label>
-        <input class="form-control" type="text" id="query" name="query" placeholder="Enter your query" value="{{ query }}">
-        <br>
-        <label for="n_results">Number of Results:</label>
-        <input class="form-control" type="number" id="n_results" name="n_results" value="{{ n_results|default:5 }}">
-        <br>
-        <input style="background-color: #4e90fe; font-size: 14px; font-weight: bold;" type="submit" value="Search">
-    </div>
-</form>
+    <form action="" method="post" class="search-form">
+        <div class="form-group">
+            {% csrf_token %}
+            <label for="query" class="form-label">Enter your query:</label>
+            <input 
+                class="form-control" 
+                type="text" 
+                id="query" 
+                name="query" 
+                placeholder="Search your DB" 
+                value="{{ query }}"
+                required
+            >
+            <br>
+            <label for="n_results" class="form-label">Number of Results:</label>
+            <input 
+                class="form-control" 
+                type="number" 
+                id="n_results" 
+                name="n_results" 
+                value="{{ n_results|default:5 }}"
+                min="1"
+                max="50"
+                required
+            >
+            <br>
+            <button type="submit" class="cta-button">Search</button>
+        </div>
+    </form>
 
-<br><br>
-
-{% if submitted %}
-{% if data %}
-    <div class="results">
-        <h2>Search Results</h2>
-        {% for result in data %}
-            <div class="result-item">
-                <p><strong>Content:</strong> {{ result.content }}</p>
-                <p><strong>File Name:</strong> {{ result.file_name }}</p>
-                <p><strong>Chunk ID:</strong> {{ result.chunk_id }}</p>
-                <p><strong>Distance:</strong> {{ result.distance }}</p>
-            </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <p>No results found or an error occurred during retrieval.</p>
-{% endif %}
-{% endif %}
+    {% if submitted %}
+        <div class="results">
+            <h2>Search Results</h2>
+            {% if data %}
+                {% for result in data %}
+                    <div class="result-item">
+                        <p><strong>Content:</strong> {{ result.content }}</p>
+                        <p><strong>File Name:</strong> {{ result.file_name }}</p>
+                        <p><strong>Chunk ID:</strong> {{ result.chunk_id }}</p>
+                        <p><strong>Distance:</strong> {{ result.distance }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-results">No results found or an error occurred during retrieval.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

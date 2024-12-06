@@ -124,10 +124,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
 
-# Add these lines
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'rag_app', 'static'),
 ]
