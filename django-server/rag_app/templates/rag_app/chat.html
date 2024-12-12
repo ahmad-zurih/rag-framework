@@ -1,32 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Chat Interface</title>
-    <script>
-        function sendMessage() {
-            const query = document.getElementById('query').value;
-            fetch('/chat/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: 'query=' + encodeURIComponent(query)
-            })
-            .then(response => response.json())
-            .then(data => {
-                const chatWindow = document.getElementById('chat-window');
-                chatWindow.value += 'User: ' + query + '\n';
-                chatWindow.value += 'Assistant: ' + data.response + '\n';
-                document.getElementById('query').value = '';
-            });
-        }
-    </script>
-</head>
-<body>
-    <h1>Chat with the Assistant</h1>
-    <textarea id="chat-window" rows="20" cols="80" readonly></textarea><br>
-    <input type="text" id="query" size="80">
-    <button onclick="sendMessage()">Send</button>
-</body>
-</html>
+{% extends "rag_app/base.html" %}
+
+{% block content %}
+<div class="chat-container">
+    <h1>Chat with the LLM</h1>
+
+    <div class="chat-box">
+        {% if user_query %}
+        <div class="user-message">
+            <p><strong>You:</strong> {{ user_query }}</p>
+        </div>
+        {% endif %}
+
+        {% if answer %}
+        <div class="bot-message">
+            <p><strong>Bot:</strong> {{ answer }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <form method="post" class="chat-form">
+        {% csrf_token %}
+        <textarea id="query" name="query" placeholder="Type your question here..."></textarea>
+        <button type="submit" class="cta-button">Send</button>
+    </form>
+</div>
+{% endblock %}
