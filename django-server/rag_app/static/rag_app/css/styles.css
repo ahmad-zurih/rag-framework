@@ -1,5 +1,3 @@
-
-
 h1 {
     text-align: center;
 }
@@ -32,40 +30,33 @@ nav {
     text-decoration: underline;
 }
 
-/* Dynamic content styling */
-.content {
-    padding: 20px;
-    position: flex;
-}
-
-/* Footer styles for absolute positioning */
-.footer-absolute {
-    background-color: #021330; /* Deep brown */
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Footer styles for flexible positioning */
+/* Footer styles */
+.footer-absolute,
 .footer-flex {
-    background-color: #021330; /* Deep brown */
+    background-color: #021330;
     color: white;
     text-align: center;
     padding: 10px 0;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
+    position: relative;
 }
 
 /* General body styling */
-body {
-    background-color: #a3b2d5;
-    color: #e4e4f0; /* Light text for readability */
-    font-family: 'Roboto', sans-serif;
+body, html {
+    height: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
+    color: #1f2937; /* Dark gray text */
+    background-color: #f2f2f7; /* Very light gray background */
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    min-height: calc(100vh - 60px);
+    box-sizing: border-box;
 }
 
 /* Home container */
@@ -75,17 +66,15 @@ body {
     padding: 50px 20px;
 }
 
-/* Main heading */
 .home-container h1 {
     font-size: 3rem;
-    color: #021330; /* Vibrant blue for AI-like aesthetics */
+    color: #021330;
     margin-bottom: 10px;
 }
 
-/* Subtitle styling */
 .subtitle {
     font-size: 1.5rem;
-    color: #030309; /* Soft light-blue accent */
+    color: #030309;
     margin-bottom: 40px;
 }
 
@@ -98,30 +87,30 @@ body {
 }
 
 .feature {
-    background: #060619; 
+    background: #ffffff; 
     border: 1px solid #021330;
     border-radius: 10px;
     padding: 20px;
     width: 300px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .feature h2 {
     font-size: 1.8rem;
-    color: #e4e4f0;
+    color: #1f2937;
     margin-bottom: 15px;
 }
 
 .feature p {
     font-size: 1rem;
-    color: #cfcfe0;
+    color: #374151;
     line-height: 1.5;
 }
 
 .feature:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Call to action button */
@@ -138,13 +127,15 @@ body {
     font-size: 1.2rem;
     font-weight: bold;
     border-radius: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: background 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    cursor: pointer;
 }
 
 .cta-button:hover {
     background: linear-gradient(90deg, #6b7efe, #4e90fe);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Search container */
@@ -154,17 +145,15 @@ body {
     padding: 50px 20px;
 }
 
-/* Main heading */
 .search-container h1 {
     font-size: 3rem;
-    color: #021330; /* Vibrant blue */
+    color: #021330;
     margin-bottom: 10px;
 }
 
-/* Subtitle styling */
 .search-container .subtitle {
     font-size: 1.5rem;
-    color: #030309; /* Soft grayish blue */
+    color: #030309;
     margin-bottom: 40px;
 }
 
@@ -172,10 +161,10 @@ body {
 .search-form {
     margin: 0 auto;
     max-width: 500px;
-    background: #060619; /* Dark background */
+    background: #ffffff;
     border-radius: 10px;
     padding: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
@@ -186,7 +175,7 @@ body {
 
 .form-label {
     font-size: 1.1rem;
-    color: #e4e4f0;
+    color: #1f2937;
     text-align: left;
 }
 
@@ -195,8 +184,8 @@ body {
     font-size: 1rem;
     border: 1px solid #021330;
     border-radius: 5px;
-    background-color: #030309;
-    color: white;
+    background-color: #ffffff;
+    color: #1f2937;
 }
 
 .form-control::placeholder {
@@ -221,15 +210,15 @@ body {
 }
 
 .result-item {
-    background: #021330;
+    background: #ffffff;
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .result-item p {
-    color: #cfcfe0;
+    color: #374151;
     font-size: 1rem;
     line-height: 1.5;
 }
@@ -239,12 +228,12 @@ body {
 }
 
 .no-results {
-    color: #e4e4f0;
+    color: #1f2937;
     font-size: 1.2rem;
     margin-top: 20px;
 }
 
-/* CTA Button */
+/* Overriding CTA Button */
 .cta-button {
     display: inline-block;
     background: linear-gradient(90deg, #021330, #4e90fe);
@@ -254,7 +243,7 @@ body {
     font-size: 1.2rem;
     font-weight: bold;
     border-radius: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: background 0.3s ease, box-shadow 0.3s ease;
     border: none;
     cursor: pointer;
@@ -262,75 +251,106 @@ body {
 
 .cta-button:hover {
     background: linear-gradient(90deg, #6b7efe, #4e90fe);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Chat container */
 .chat-container {
-    text-align: center;
-    margin: 0 auto;
-    padding: 50px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    background: #f2f2f7;
+    position: relative;
 }
 
 .chat-container h1 {
     font-size: 2.5rem;
     color: #021330;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
+/* Chat box area */
 .chat-box {
-    border: 1px solid #021330;
-    background-color: #060619;
-    color: #e4e4f0;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 20px auto;
     width: 100%;
-    max-width: 600px;
-    height: 300px;
+    max-width: 800px;
+    background-color: #ffffff;
+    flex: 1;
     overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #1f2937;
+    border: 1px solid #ddd;
+    border-radius: 10px;
 }
 
+/* User & Bot messages */
 .user-message,
 .bot-message {
     margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 15px;
+    border-radius: 8px;
     word-wrap: break-word;
+    font-size: 1rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
 }
 
 .user-message {
-    background-color: #4e90fe;
-    color: white;
+    background-color: #dbeafe; /* light blue background */
+    color: #1f2937;
     text-align: right;
 }
 
 .bot-message {
-    background-color: #021330;
-    color: #e4e4f0;
+    background-color: #e2e8f0; /* light gray background */
+    color: #1f2937;
     text-align: left;
 }
 
+/* Input area at the bottom */
 .chat-form {
     display: flex;
     gap: 10px;
-    margin-top: 20px;
-    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 10px auto;
+    background: #f2f2f7;
+    border-top: none;
+    padding: 10px;
+    box-sizing: border-box;
+    position: sticky;
+    bottom: 0;
 }
 
 .chat-form textarea {
-    width: 70%;
-    height: 50px;
+    flex: 1;
     border: 1px solid #021330;
     border-radius: 5px;
     padding: 10px;
     font-size: 1rem;
-    color: #e4e4f0;
-    background-color: #030309;
+    color: #1f2937;
+    background-color: #ffffff;
     resize: none;
+    height: 50px;
 }
 
 .chat-form button {
-    width: 20%;
+    width: auto;
     height: 50px;
+    background: #4e90fe;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    padding: 0 20px;
+}
+
+.chat-form button:hover {
+    background: #6b7efe;
 }
