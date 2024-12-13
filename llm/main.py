@@ -60,7 +60,21 @@ class Responder:
         except Exception as e:
             raise RuntimeError(f"An error occurred during response generation: {e}")
         
-        
+    
+    def stream_response_chunks(self):
+        """
+        Returns a generator that yields chunks of the response text.
+        """
+        self._check_model()
+        try:
+            response_generator = ollama.generate(model=self.model, prompt=self.prompt, stream=True)
+            for chunk in response_generator:
+                yield chunk['response']
+        except KeyError as e:
+            raise ValueError(f"Response does not contain expected key: {e}")
+        except Exception as e:
+            raise RuntimeError(f"An error occurred during response generation: {e}")
+
         
     def _check_model(self):
         """
