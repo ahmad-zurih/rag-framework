@@ -1,27 +1,88 @@
 {% extends "rag_app/base.html" %}
-
 {% block content %}
 <div class="chat-container">
     <h1>Chat with the LLM</h1>
 
-    <div class="chat-box">
-        {% if user_query %}
-        <div class="user-message">
-            <p><strong>You:</strong> {{ user_query }}</p>
-        </div>
-        {% endif %}
-
-        {% if answer %}
-        <div class="bot-message">
-            <p><strong>Bot:</strong> {{ answer }}</p>
-        </div>
-        {% endif %}
+    <div class="chat-box" id="chat-box">
+        <!-- User and bot messages will be appended here by JavaScript -->
     </div>
 
-    <form method="post" class="chat-form">
+    <form id="chat-form" class="chat-form">
         {% csrf_token %}
         <textarea id="query" name="query" placeholder="Type your question here..."></textarea>
         <button type="submit" class="cta-button">Send</button>
     </form>
 </div>
+
+<script>
+    document.getElementById('chat-form').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+    
+        const queryInput = document.getElementById('query');
+        const userQuery = queryInput.value.trim();
+        if (!userQuery) return;
+    
+        const chatBox = document.getElementById('chat-box');
+    
+        // Display user message
+        const userMsgDiv = document.createElement('div');
+        userMsgDiv.className = 'user-message';
+        userMsgDiv.innerHTML = `<p><strong>You:</strong> ${userQuery}</p>`;
+        chatBox.appendChild(userMsgDiv);
+    
+        // Clear the input field
+        queryInput.value = '';
+    
+        // Create a new bot message container and response element
+        const botMsgDiv = document.createElement('div');
+        botMsgDiv.className = 'bot-message';
+    
+        const botResponseElem = document.createElement('span');
+        // No ID needed, just a class or nothing at all
+        botMsgDiv.innerHTML = `<p><strong>Bot:</strong> </p>`;
+        botMsgDiv.querySelector('p').appendChild(botResponseElem);
+    
+        chatBox.appendChild(botMsgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('query', userQuery);
+        formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+    
+        // Stream the response from the server
+        fetch("{% url 'chat_stream' %}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.body) {
+                throw new Error("ReadableStream not yet supported in this browser.");
+            }
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+    
+            function readChunk() {
+                return reader.read().then(({ done, value }) => {
+                    if (done) {
+                        // Finished reading
+                        return;
+                    }
+                    // Decode and append chunk
+                    const chunkText = decoder.decode(value, {stream: true});
+                    botResponseElem.textContent += chunkText;
+                    chatBox.scrollTop = chatBox.scrollHeight; // auto scroll to bottom
+                    return readChunk();
+                });
+            }
+    
+            return readChunk();
+        })
+        .catch(err => {
+            console.error("Error fetching streaming response:", err);
+        });
+    });
+</script>
+    
 {% endblock %}
+

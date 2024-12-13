@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.http import StreamingHttpResponse, JsonResponse
 
 from retrieval.main import ChromaRetriever
 from config.embedding_config import model_name, db_directory, collection_name
@@ -59,30 +61,44 @@ def search(request):
     
 
 
+def chat_page(request):
+    # Renders the chat page with the form and no answers yet
+    footer_class = 'footer-absolute'
+    return render(request, 'rag_app/chat.html', {'footer_class': footer_class})
+
+
 @csrf_exempt
-def chat(request):
-    user_query = None
-    answer = None
+@require_POST
+def chat_stream(request):
+    user_query = request.POST.get('query', '').strip()
+    if not user_query:
+        return JsonResponse({"error": "No query provided"}, status=400)
 
-    if request.method == 'POST':
-        user_query = request.POST.get('query', '').strip()
-        if user_query:
-            retriever = ChromaRetriever(
-                embedding_model=model_name, 
-                db_path=db_directory, 
-                db_collection=collection_name, 
-                n_results=5
-            )
-            search_results = retriever.retrieve(user_query)
-            formatted_result = retriever.format_results_for_prompt(search_results)
+    # Retrieval
+    retriever = ChromaRetriever(
+        embedding_model=model_name, 
+        db_path=db_directory, 
+        db_collection=collection_name, 
+        n_results=5
+    )
+    search_results = retriever.retrieve(user_query)
+    formatted_result = retriever.format_results_for_prompt(search_results)
 
-            responder = Responder(
-                data=formatted_result, 
-                model=llm_model, 
-                prompt_template=prompt, 
-                query=user_query
-            )
-            answer = responder.generate_response()
+    responder = Responder(
+        data=formatted_result, 
+        model=llm_model, 
+        prompt_template=prompt, 
+        query=user_query
+    )
 
-    footer_class = 'footer-absolute' if (user_query or answer) else 'footer-absolute' #change this later
-    return render(request, 'rag_app/chat.html', {'user_query': user_query, 'answer': answer, 'footer_class': footer_class})
+    # Use the generator from Responder that yields chunks
+    def stream_generator():
+        # We just yield the chunks of text as they arrive.
+        # No HTML tags added here. We'll handle formatting on the client side.
+        for chunk in responder.stream_response_chunks():
+            yield chunk
+
+    return StreamingHttpResponse(
+        stream_generator(), 
+        content_type='text/plain'
+    )
