@@ -1,5 +1,4 @@
 {% extends "rag_app/base.html" %}
-
 {% block title %}Search{% endblock %}
 
 {% block content %}
@@ -7,7 +6,7 @@
     <h1>Vector Database Search</h1>
     <p class="subtitle">Empower your queries with state-of-the-art retrieval capabilities</p>
 
-    <form action="" method="post" class="search-form">
+    <form action="" method="post" class="search-form" id="search-form">
         <div class="form-group">
             {% csrf_token %}
             <label for="query" class="form-label">Enter your query:</label>
@@ -33,9 +32,16 @@
                 required
             >
             <br>
-            <button type="submit" class="cta-button">Search</button>
+            <button type="submit" class="cta-button" id="search-button">Search</button>
         </div>
     </form>
+
+    <!-- Hidden loading indicator -->
+    <div id="loading-indicator" style="display:none; text-align:center; margin-top:20px;">
+        <p>Loading, please wait...</p>
+        <!-- Optionally, add a spinner GIF or CSS spinner -->
+        <div class="spinner"></div>
+    </div>
 
     {% if submitted %}
         <div class="results">
@@ -55,4 +61,14 @@
         </div>
     {% endif %}
 </div>
+
+<script>
+// Show loading indicator on form submission
+document.getElementById('search-form').addEventListener('submit', function() {
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const searchButton = document.getElementById('search-button');
+    loadingIndicator.style.display = 'block';
+    searchButton.disabled = true; // Disable the button to prevent multiple clicks
+});
+</script>
 {% endblock %}
