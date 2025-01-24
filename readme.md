@@ -63,7 +63,6 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
 
 ## How to Get Started
 
-Sure, here is the description of how to start including the following steps:
 
 **Prerequisites:**
 
