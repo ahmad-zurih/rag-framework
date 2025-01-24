@@ -60,6 +60,8 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
 │   ├── main.py
 │   └── simple_query.py
 └── tests
+```
+
 
 ## How to Get Started
 
