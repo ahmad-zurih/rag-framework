@@ -1,5 +1,13 @@
 ## Framewrok for RAG (FRAG)
 
+## ⚠️ Important Note
+
+This project is still under active development and should be considered in a pre-release state. It has not been thoroughly tested yet, and some features may be incomplete or unstable. Use it at your own discretion and report any issues or bugs.
+
+Contributions, feedback, and suggestions are welcome as we work toward a stable release!
+
+
+
 # RAG Framework
 
 This repository contains a Retrieval-Augmented Generation (RAG) framework for efficient information retrieval and natural language generation.
