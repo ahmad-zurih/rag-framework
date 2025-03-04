@@ -5,9 +5,9 @@ model_name = "Lajavaness/bilingual-embedding-large"  #choose any embedding model
 
 vector_db = "chromaDB" # Allowed Values ['chromaDB', 'FAISS']. Only ChromaDB works now
 
-collection_name = "my_collection"
+collection_name = "eduscience_data_sample"
 
-raw_db = "/path/to/data"  #root directory to where raw documents are stored
+raw_db = "/home/joseph/Documents/eduscience_data_sample"  #root directory to where raw documents are stored
 
 data_language = "english" #variable for the tokenizer. Supported language = ['czech', 'danish', 'dutch', 'english', 'estonian', 'finnish', 'french', 'german' ,'greek' ,'italian' ,'norwegian', 'polish' ,'portuguese', 'russian' ,'slovene','spanish', 'swedish', 'turkish']
 
