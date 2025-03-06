@@ -3,3 +3,5 @@ __pycache__
 chroma.log
 db.sqlite3
 chroma_data
+.env
+
