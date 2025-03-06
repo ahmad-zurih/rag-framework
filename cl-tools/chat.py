@@ -1,5 +1,7 @@
 import os
 import sys
+from dotenv import load_dotenv
+from openai import OpenAI
 
 # Add the parent directory to sys.path
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -8,8 +10,16 @@ sys.path.append(parent_dir)
 from retrieval.main import ChromaRetriever
 from config.embedding_config import model_name, db_directory, collection_name
 
-from llm.main import Responder
-from config.llm_config import llm_model, prompt
+from llm.main import Responder, OpenAIResponder
+from config.llm_config import llm_model, prompt, openai_model, use_openai
+
+
+load_dotenv(os.path.join(parent_dir, '.env'))
+
+
+openai_client = OpenAI(
+    api_key=os.environ.get("OPENAI_API_KEY"),  
+)
 
 def main():
     while True:
@@ -27,8 +37,13 @@ def main():
             search_results = retriever.retrieve(user_query)
             formated_result = retriever.format_results_for_prompt(search_results)
 
-            responder = Responder(data=formated_result, model=llm_model, prompt_template=prompt, query=user_query)
-            responder.stream_response()
+            if use_openai:
+                responder = OpenAIResponder(data=formated_result, model=openai_model, 
+                                            prompt_template=prompt, query= user_query,cleint=openai_client)
+                responder.stream_response()
+            else:
+                responder = Responder(data=formated_result, model=llm_model, prompt_template=prompt, query=user_query)
+                responder.stream_response()
 
 
 if __name__ == "__main__":
