@@ -4,3 +4,5 @@ sentence-transformers==3.2.1
 chromadb==0.5.18
 nltk==3.9.1
 ollama==0.3.3
+openai==1.65.2
+python-dotenv==1.0.1
