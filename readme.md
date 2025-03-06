@@ -10,7 +10,7 @@ Contributions, feedback, and suggestions are welcome as we work toward a stable 
 
 # RAG Framework
 
-This repository contains a Retrieval-Augmented Generation (RAG) framework for efficient information retrieval and natural language generation.
+This repository contains a Retrieval-Augmented Generation (RAG) framework for efficient information retrieval and natural language generation. The framework supports both Ollama (running local, open-source LLMs) and OpenAI (for cloud-based LLMs like gpt-3.5-turbo, gpt-4, etc.)
 
 ## Repository Structure
 
@@ -77,6 +77,7 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
 **Prerequisites:**
 
 *   Ollama server. Install from [https://ollama.com/](https://ollama.com/)
+*   For using openai api, get api key and store it in .env file in the root level of the directory
 
 **Steps:**
 
@@ -143,9 +144,31 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
 
     *   This will create a Chroma vector database using the configurations you provided.
 
-6.  **Additional configurations (optional):**
+6.  **LLM configurations (ollama or openai):**
 
-    *   The file `config/llm_config.py` allows you to configure the large language model (LLM) used for text generation. You can specify the LLM and potentially edit the prompts used for generating text.
+    *   The file `config/llm_config.py` allows you to configure the large language model (LLM) used for text generation. You can specify the LLM and potentially edit the prompts used for generating text. This config file also allows you to choose between running ollama or openai api models. Here is an example file:
+    ```python
+    llm_model = 'deepseek-r1:1.5b' # select any model available on the ollama site https://ollama.com/search
+
+    use_openai = False # set to True if using openai api and then select 'openai_model' variable
+
+    openai_model = 'gpt-4o' # if using openai api then select which model to use
+
+    prompt = """
+    DOCUMENTS: \n
+    {data}
+    \n
+    \n
+    QUESTION:
+    {query}
+    \n
+    \n
+    INSTRUCTIONS:
+    Answer the users QUESTION using the DOCUMENTS text above.
+    Keep your answer ground in the facts of the DOCUMENT.
+    If the DOCUMENT doesn’t contain the facts to answer the QUESTION return NO Answer found
+    """
+    ```
 
 7.  **Run the system:**
 
