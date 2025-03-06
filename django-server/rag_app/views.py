@@ -2,12 +2,18 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.http import StreamingHttpResponse, JsonResponse
+from django.conf import settings
 
 from retrieval.main import ChromaRetriever
 from config.embedding_config import model_name, db_directory, collection_name
 
-from llm.main import Responder
-from config.llm_config import llm_model, prompt
+from llm.main import Responder, OpenAIResponder
+from config.llm_config import llm_model, prompt, use_openai, openai_model
+
+from dotenv import load_dotenv
+from openai import OpenAI
+import os 
+
 
 
 def home(request):
@@ -84,12 +90,21 @@ def chat_stream(request):
     search_results = retriever.retrieve(user_query)
     formatted_result = retriever.format_results_for_prompt(search_results)
 
-    responder = Responder(
-        data=formatted_result, 
-        model=llm_model, 
-        prompt_template=prompt, 
-        query=user_query
-    )
+    if use_openai:
+        load_dotenv(os.path.join(settings.BASE_DIR.parent, '.env'))
+
+        openai_client = OpenAI(
+            api_key=os.environ.get("OPENAI_API_KEY"),  
+            )
+        responder = OpenAIResponder(data=formatted_result, model=openai_model, 
+                                            prompt_template=prompt, query= user_query,cleint=openai_client)
+    else:
+        responder = Responder(
+            data=formatted_result, 
+            model=llm_model, 
+            prompt_template=prompt, 
+            query=user_query
+        )
 
     # Use the generator from Responder that yields chunks
     def stream_generator():
