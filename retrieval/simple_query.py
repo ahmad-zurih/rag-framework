@@ -3,14 +3,22 @@ import sys
 import chromadb
 from sentence_transformers import SentenceTransformer
 
-
 # Add the parent directory to sys.path
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(parent_dir)
 
+# Import configurations using the new config loader
+from config.config_loader import get_embedding_config
 
-from config.embedding_config import model_name, db_directory, collection_name
+# Get the configuration
+embedding_config = get_embedding_config()
 
+# Extract configuration values
+model_name = embedding_config['model_name']
+collection_name = embedding_config['collection_name']
+
+# Extract DB location from environment (defined in .env file)
+db_directory = os.environ.get("DB_DIRECTORY")
 
 # Initialize the ChromaDB persistent client
 client = chromadb.PersistentClient(path=db_directory)
