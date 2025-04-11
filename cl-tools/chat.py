@@ -1,21 +1,32 @@
 import os
 import sys
-from dotenv import load_dotenv
 from openai import OpenAI
 
 # Add the parent directory to sys.path
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(parent_dir)
 
+# Import configurations using the new config loader
+from config.config_loader import get_embedding_config, get_llm_config
 from retrieval.main import ChromaRetriever
-from config.embedding_config import model_name, db_directory, collection_name
-
 from llm.main import Responder, OpenAIResponder
-from config.llm_config import llm_model, prompt, openai_model, use_openai
 
+# Get configurations
+embedding_config = get_embedding_config()
+llm_config = get_llm_config()
 
-load_dotenv(os.path.join(parent_dir, '.env'))
+# Extract embedding configuration values
+model_name = embedding_config['model_name']
+collection_name = embedding_config['collection_name']
 
+# Extract LLM configuration values
+llm_model = llm_config['llm_model']
+prompt = llm_config['prompt']
+openai_model = llm_config['openai_model']
+use_openai = llm_config['use_openai']
+
+# Extract DB location from environment (defined in .env file)
+db_directory = os.environ.get("DB_DIRECTORY")
 
 openai_client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),  

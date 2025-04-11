@@ -4,18 +4,33 @@ from django.views.decorators.http import require_POST
 from django.http import StreamingHttpResponse, JsonResponse
 from django.conf import settings
 
+# Import configurations using the new config loader
+from config.config_loader import get_embedding_config, get_llm_config
 from retrieval.main import ChromaRetriever
-from config.embedding_config import model_name, db_directory, collection_name
-
 from llm.main import Responder, OpenAIResponder
-from config.llm_config import llm_model, prompt, use_openai, openai_model, record_data
 from .models import ChatLog
 from datetime import datetime
 
-from dotenv import load_dotenv
+# Get configurations
+embedding_config = get_embedding_config()
+llm_config = get_llm_config()
+
+# Extract embedding configuration values
+model_name = embedding_config['model_name']
+collection_name = embedding_config['collection_name']
+
+# Extract LLM configuration values
+llm_model = llm_config['llm_model']
+prompt = llm_config['prompt']
+use_openai = llm_config['use_openai']
+openai_model = llm_config['openai_model']
+
+
 from openai import OpenAI
 import os 
 import json
+# Extract DB location from environment (defined in .env file)
+db_directory = os.environ.get("DB_DIRECTORY")
 
 
 
@@ -106,7 +121,6 @@ def chat_stream(request):
 
     # -- 2) Initialize an LLM Responder
     if use_openai:
-        load_dotenv(os.path.join(settings.BASE_DIR.parent, '.env'))
         openai_client = OpenAI(
             api_key=os.environ.get("OPENAI_API_KEY"),
         )

@@ -8,3 +8,10 @@ chroma_data
 **/migrations/*.py
 !**/migrations/__init__.py
 
+# Space to store the database
+data/
+
+# Ignore actual config files but keep examples
+config/*.yaml
+!config/*.example.yaml
+

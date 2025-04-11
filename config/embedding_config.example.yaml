@@ -1,0 +1,21 @@
+# Embedding and vector database configuration
+
+# Embedding model to use
+model_name: "Lajavaness/bilingual-embedding-large"
+
+# Vector database type
+vector_db: "chromaDB"  # Allowed Values ['chromaDB', 'FAISS']. Only ChromaDB works now
+
+# Collection name in the vector database
+collection_name: "my_collection"
+
+# Language for the tokenizer
+# Supported languages: czech, danish, dutch, english, estonian, finnish, french,
+# german, greek, italian, norwegian, polish, portuguese, russian, slovene,
+# spanish, swedish, turkish
+data_language: "english"
+
+# Number of sentences each chunk will contain
+chunk_size: 20
+
+overlap_size: 5 # must be less than chunk_size. Indicates how many sentences overlap when splitting chunks
