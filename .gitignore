@@ -3,3 +3,8 @@ __pycache__
 chroma.log
 db.sqlite3
 chroma_data
+*.log
+
+# don't sync databases
+data/
+
