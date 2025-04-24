@@ -4,6 +4,7 @@ chroma.log
 db.sqlite3
 chroma_data
 .env
+*.sock
 
 # Space to store the database
 data/
