@@ -27,7 +27,7 @@ openai_model = llm_config['openai_model']
 from openai import OpenAI
 import os 
 # Extract DB location from environment (defined in .env file)
-db_directory = os.environ.get("DB_DIRECTORY")
+db_directory = os.environ.get("FRAG_DB_DIRECTORY")
 
 
 

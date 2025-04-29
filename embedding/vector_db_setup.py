@@ -20,10 +20,12 @@ vector_db = embedding_config['vector_db']
 data_language = embedding_config['data_language']
 chunk_size = embedding_config['chunk_size']
 collection_name = embedding_config['collection_name']
+file_types = embedding_config['file_types'].split(',')
 
 # Extract DB location from environment (defined in .env file)
-raw_db = os.environ.get("RAW_DB")
-db_directory = os.environ.get("DB_DIRECTORY")
+raw_db = os.environ.get("FRAG_RAW_DB")
+db_directory = os.environ.get("FRAG_DB_DIRECTORY")
+file_types = os.environ.get("FRAG_FILE_TYPES").split(',')
 
 from embedding.utils import (
     get_file_paths,
@@ -45,7 +47,7 @@ def main():
     print(f"Vector Database is: {vector_db}\n")
 
     # Step 1: Load documents (txt and pdf)
-    file_paths = get_file_paths(raw_db, ["txt", "pdf"])
+    file_paths = get_file_paths(raw_db, file_types)
     print(f"Found {len(file_paths)} files to process.\n")
 
     # Initialize embedding model
