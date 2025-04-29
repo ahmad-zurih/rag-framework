@@ -20,7 +20,6 @@ vector_db = embedding_config['vector_db']
 data_language = embedding_config['data_language']
 chunk_size = embedding_config['chunk_size']
 collection_name = embedding_config['collection_name']
-file_types = embedding_config['file_types'].split(',')
 
 # Extract DB location from environment (defined in .env file)
 raw_db = os.environ.get("FRAG_RAW_DB")
