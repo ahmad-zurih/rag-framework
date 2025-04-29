@@ -30,7 +30,7 @@ from openai import OpenAI
 import os 
 import json
 # Extract DB location from environment (defined in .env file)
-db_directory = os.environ.get("DB_DIRECTORY")
+db_directory = os.environ.get("FRAG_DB_DIRECTORY")
 
 
 

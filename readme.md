@@ -117,8 +117,10 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
     
     ```bash
     # Database and file paths
-    RAW_DB=/path/to/your/actual/data
-    DB_DIRECTORY=/path/to/your/actual/database
+    FRAG_RAW_DB=/path/to/your/actual/data
+    FRAG_DB_DIRECTORY=/path/to/your/actual/database
+    # files to be indexed. Only pdf and txt are supported
+    FRAG_FILE_TYPES=pdf,txt
     
     # API keys
     OPENAI_API_KEY=your_openai_api_key

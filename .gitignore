@@ -4,13 +4,10 @@ chroma.log
 db.sqlite3
 chroma_data
 .env
-<<<<<<< HEAD
 # Ignore Django migrations
 **/migrations/*.py
 !**/migrations/__init__.py
-=======
 *.sock
->>>>>>> 1d4f3e1 (do not sync web socket)
 
 # Space to store the database
 data/

@@ -18,7 +18,7 @@ model_name = embedding_config['model_name']
 collection_name = embedding_config['collection_name']
 
 # Extract DB location from environment (defined in .env file)
-db_directory = os.environ.get("DB_DIRECTORY")
+db_directory = os.environ.get("FRAG_DB_DIRECTORY")
 
 def create_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description='Script to perform vectorDB semantic search')
