@@ -371,4 +371,14 @@ body, html {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  .docs-container {
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+  
+  .single-doc {
+    margin-bottom: 10px;
+  }
   
