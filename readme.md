@@ -12,64 +12,6 @@ Contributions, feedback, and suggestions are welcome as we work toward a stable 
 
 This repository contains a Retrieval-Augmented Generation (RAG) framework for efficient information retrieval and natural language generation. The framework supports both Ollama (running local, open-source LLMs) and OpenAI (for cloud-based LLMs like gpt-3.5-turbo, gpt-4, etc.)
 
-## Repository Structure
-
-```plaintext
-.
-├── LICENSE
-├── cl-tools
-│   ├── __init__.py
-│   ├── chat.py
-│   └── search.py
-├── config
-│   ├── __init__.py
-│   ├── embedding_config.py
-│   └── llm_config.py
-├── django-server
-│   ├── manage.py
-│   ├── rag_app
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── migrations
-│   │   │   └── __init__.py
-│   │   ├── models.py
-│   │   ├── static
-│   │   │   └── rag_app
-│   │   │       ├── css
-│   │   │       │   └── styles.css
-│   │   │       └── images
-│   │   │           └── frag.jpg
-│   │   ├── templates
-│   │   │   └── rag_app
-│   │   │       ├── base.html
-│   │   │       ├── chat.html
-│   │   │       ├── home.html
-│   │   │       └── search.html
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   └── rag_server
-│       ├── asgi.py
-│       ├── settings.py
-│       ├── urls.py
-│       └── wsgi.py
-├── docs
-│   └── diagram
-│       └── RAG_Framework.svg
-├── embedding
-│   ├── __init__.py
-│   ├── utils.py
-│   └── vector_db_setup.py
-├── llm
-│   └── main.py
-├── readme.md
-├── requirement.txt
-├── retrieval
-│   ├── main.py
-│   └── simple_query.py
-└── tests
-```
-
 
 ## How to Get Started
 
@@ -146,7 +88,7 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
 
 6.  **LLM configurations (ollama or openai):**
 
-    *   The file `config/llm_config.py` allows you to configure the large language model (LLM) used for text generation. You can specify the LLM and potentially edit the prompts used for generating text. This config file also allows you to choose between running ollama or openai api models. Here is an example file:
+    *   The file `config/llm_config.py` allows you to configure the large language model (LLM) used for text generation. You can specify the LLM and potentially edit the prompts used for generating text. This config file also allows you to choose between running ollama or openai api models. You can also choose to record chat log of users with the record_data variable. Here is an example file:
     ```python
     llm_model = 'deepseek-r1:1.5b' # select any model available on the ollama site https://ollama.com/search
 
@@ -168,6 +110,8 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
     Keep your answer ground in the facts of the DOCUMENT.
     If the DOCUMENT doesn’t contain the facts to answer the QUESTION return NO Answer found
     """
+
+    record_data = False # set to true to record chat log
     ```
 
 7.  **Run the system:**
