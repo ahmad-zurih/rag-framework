@@ -8,7 +8,9 @@ from retrieval.main import ChromaRetriever
 from config.embedding_config import model_name, db_directory, collection_name
 
 from llm.main import Responder, OpenAIResponder
-from config.llm_config import llm_model, prompt, use_openai, openai_model
+from config.llm_config import llm_model, prompt, use_openai, openai_model, record_data
+from .models import ChatLog
+from datetime import datetime
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -125,9 +127,24 @@ def chat_stream(request):
 
     # -- 3) Prepare a streaming generator
     def stream_generator():
+        full_response = ""
         # First yield the LLM's output
         for chunk in responder.stream_response_chunks():
+            full_response += chunk
             yield chunk
+
+        # Yield retrieved documents info to the client
+        docs_json_str = json.dumps(doc_list_for_frontend)
+        final_chunk = f"<|DOCS_JSON|>{docs_json_str}"
+        yield final_chunk
+
+        # Save conversation if flag is True
+        if record_data:
+            ChatLog.objects.create(
+                user_query=user_query,
+                response=full_response,
+            )
+
 
         # After the model output finishes, yield one last "special" chunk
         # so the client can parse out the retrieved docs. 
