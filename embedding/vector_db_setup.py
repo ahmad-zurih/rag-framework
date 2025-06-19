@@ -15,7 +15,7 @@ from config.embedding_config import (
     raw_db,
     data_language,
     db_directory,
-    chunk_size,  
+    chunk_size,
     collection_name
 )
 from embedding.utils import (
@@ -47,6 +47,9 @@ def main():
 
     # Create or retrieve the collection in ChromaDB
     collection = client.get_or_create_collection(collection_name)
+
+    
+    total_chunks = 0
 
     for file_path in tqdm(file_paths, desc="Processing documents"):
         # Step 2: Read content based on file type
@@ -82,9 +85,11 @@ def main():
                 metadatas=[{"file_name": file_name, "chunk_id": i}],
                 ids=[chunk_id]
             )
+            total_chunks += 1
 
     print("\n--- Embedding and Storage Complete ---")
     print(f"Stored {len(file_paths)} documents in ChromaDB.\n")
+    print(f"Stored {total_chunks} Chunks in the DB")
 
 if __name__ == "__main__":
     main()
