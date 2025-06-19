@@ -6,3 +6,4 @@ nltk==3.9.1
 ollama==0.3.3
 openai==1.65.2
 python-dotenv==1.0.1
+django-environ==0.12.0
