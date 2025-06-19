@@ -12,6 +12,9 @@
         <textarea id="query" name="query" placeholder="Type your question here..."></textarea>
         <button type="submit">Send</button>
     </form>
+    {% if record_data %}
+    <p>This session if being recorded!</p>
+    {% endif %}
 </div>
 
 <script>

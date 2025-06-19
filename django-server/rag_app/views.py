@@ -73,7 +73,7 @@ def search(request):
 def chat_page(request):
     # Renders the chat page with the form and no answers yet
     footer_class = 'footer-absolute'
-    return render(request, 'rag_app/chat.html', {'footer_class': footer_class})
+    return render(request, 'rag_app/chat.html', {'footer_class': footer_class, 'record_data': record_data})
 
 
 @csrf_exempt
