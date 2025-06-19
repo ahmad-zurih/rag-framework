@@ -4,6 +4,7 @@ import nltk
 
 
 nltk.download('punkt', quiet=True)
+nltk.download('punkt_tab', quiet=True)
 
 
 def get_file_paths(root_dir: str, file_extensions: list[str]) -> list[str]:
