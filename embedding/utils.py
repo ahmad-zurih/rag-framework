@@ -83,22 +83,32 @@ def split_text_into_sentences(text: str, language: str) -> list[str]:
     return sentences
 
 
-def chunk_sentences(sentences: list[str], chunk_size: int) -> list[str]:
+def chunk_sentences(sentences: list[str], chunk_size: int, overlap_size: int) -> list[str]:
     """
-    Groups a list of sentences into chunks, each containing up to `chunk_size` sentences.
+    Groups a list of sentences into overlapping chunks.
 
     Args:
-        sentences (list[str]): A list of sentences.
-        chunk_size (int): The number of sentences per chunk.
+        sentences (list[str]): A list of sentences to be chunked.
+        chunk_size (int): The number of sentences in each chunk.
+        overlap_size (int): The number of sentences to overlap between consecutive chunks.
 
     Returns:
-        list[str]: A list of text chunks, each containing up to `chunk_size` sentences.
+        list[str]: A list of text chunks with the specified overlap.
+        
+    Raises:
+        ValueError: If overlap_size is greater than or equal to chunk_size.
     """
+    if overlap_size >= chunk_size:
+        raise ValueError("overlap_size must be smaller than chunk_size.")
+
     chunks = []
-    for i in range(0, len(sentences), chunk_size):
+    # The step of the range is the distance between the start of consecutive chunks.
+    step = chunk_size - overlap_size
+    for i in range(0, len(sentences), step):
         chunk = " ".join(sentences[i:i + chunk_size])
         chunks.append(chunk)
     return chunks
+
 
 
     

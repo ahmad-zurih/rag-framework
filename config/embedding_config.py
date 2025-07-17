@@ -14,3 +14,5 @@ data_language = "english" #variable for the tokenizer. Supported language = ['cz
 db_directory = os.path.join(os.path.expanduser('~'), '.db')  #default. Change it to where you want to store the vector DB
 
 chunk_size = 20   #number of sentences each chunk will contain in the vector db
+
+overlap_size = 5 # must be less than the chunk_size. It indicates how many sentences overlaps when splitting chunks

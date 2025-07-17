@@ -16,6 +16,7 @@ from config.embedding_config import (
     data_language,
     db_directory,
     chunk_size,
+    overlap_size,
     collection_name
 )
 from embedding.utils import (
@@ -65,7 +66,7 @@ def main():
         sentences = split_text_into_sentences(text, data_language)
 
         # Step 4: Chunk sentences into groups
-        chunks = chunk_sentences(sentences, chunk_size)
+        chunks = chunk_sentences(sentences, chunk_size, overlap_size)
 
         # Use file name as the document ID and create metadata with chunk index
         file_name = os.path.basename(file_path)
