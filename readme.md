@@ -55,6 +55,7 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
     *   `data_language`: This specifies the language of your data. The file provides a list of supported languages. Choose the one that matches your data.
     *   `db_directory`: This defines the location where the vector database will be stored. By default, it's set to the user's home directory under a `.db` folder. You can change this path to a different location if needed.
     *   `chunk_size`: This determines the number of sentences processed together when creating the vector database. You can adjust this value based on your data size and hardware capabilities.
+     *   `overlap_size`: This determines the number of sentences overlaped between the chunk and the next chunk. This is useful to not lose semantic of chunks when splitting the text. The value must be lower than the chunk_size.
 
     Example `embedding_config.py` (Remember to adapt these values to your specific setup):
 
@@ -74,6 +75,8 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
     db_directory = os.path.join(os.path.expanduser('~'), '.my_rag_db')
 
     chunk_size = 20
+
+    overlap_size = 5
     ```
 
 5.  **Create vector database:**
