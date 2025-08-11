@@ -9,8 +9,9 @@ chroma_data
 !**/migrations/__init__.py
 *.sock
 
-# Space to store the database
+# Space to store the database and logs
 data/
+logs/
 
 # Ignore actual config files but keep examples
 config/*.yaml

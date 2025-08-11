@@ -1,5 +1,6 @@
 import os
 import yaml
+import logging
 from pathlib import Path
 from dotenv import load_dotenv
 
