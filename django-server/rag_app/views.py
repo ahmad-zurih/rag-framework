@@ -1,17 +1,20 @@
+from openai import OpenAI
+import os 
+import json
+from datetime import datetime
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.http import StreamingHttpResponse, JsonResponse
 from django.conf import settings
 
-# Import configurations using the new config loader
-from config.config_loader import get_embedding_config, get_llm_config
 from retrieval.main import ChromaRetriever
 from llm.main import Responder, OpenAIResponder
 from .models import ChatLog
-from datetime import datetime
 
-# Get configurations
+# Import configurations using the new config loader
+from config.config_loader import get_embedding_config, get_llm_config
 embedding_config = get_embedding_config()
 llm_config = get_llm_config()
 
@@ -24,11 +27,9 @@ llm_model = llm_config['llm_model']
 prompt = llm_config['prompt']
 use_openai = llm_config['use_openai']
 openai_model = llm_config['openai_model']
+record_data = llm_config['record_data']
 
 
-from openai import OpenAI
-import os 
-import json
 # Extract DB location from environment (defined in .env file)
 db_directory = os.environ.get("FRAG_DB_DIRECTORY")
 
