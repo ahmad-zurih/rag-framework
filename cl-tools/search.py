@@ -6,9 +6,19 @@ import argparse
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(parent_dir)
 
+# Import configurations using the new config loader
+from config.config_loader import get_embedding_config
 from retrieval.main import ChromaRetriever
-from config.embedding_config import model_name, db_directory, collection_name
 
+# Get the configuration
+embedding_config = get_embedding_config()
+
+# Extract configuration values
+model_name = embedding_config['model_name']
+collection_name = embedding_config['collection_name']
+
+# Extract DB location from environment (defined in .env file)
+db_directory = os.environ.get("FRAG_DB_DIRECTORY")
 
 def create_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description='Script to perform vectorDB semantic search')

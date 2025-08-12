@@ -8,17 +8,26 @@ from sentence_transformers import SentenceTransformer
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(parent_dir)
 
-# Import configurations and utility functions
-from config.embedding_config import (
-    model_name,
-    vector_db,
-    raw_db,
-    data_language,
-    db_directory,
-    chunk_size,
-    overlap_size,
-    collection_name
-)
+# Import configurations using the new config loader
+from config.config_loader import get_embedding_config
+
+# Get the configuration
+embedding_config = get_embedding_config()
+
+# Extract configuration values
+model_name = embedding_config['model_name']
+vector_db = embedding_config['vector_db']
+data_language = embedding_config['data_language']
+chunk_size = embedding_config['chunk_size']
+collection_name = embedding_config['collection_name']
+overlap_size = embedding_config['overlap_size']
+file_types = embedding_config['file_types'].split(',')
+
+# Extract DB location from environment (defined in .env file)
+raw_db = os.environ.get("FRAG_RAW_DB")
+db_directory = os.environ.get("FRAG_DB_DIRECTORY")
+file_types = os.environ.get("FRAG_FILE_TYPES").split(',')
+
 from embedding.utils import (
     get_file_paths,
     read_text_file,
@@ -39,7 +48,7 @@ def main():
     print(f"Vector Database is: {vector_db}\n")
 
     # Step 1: Load documents (txt and pdf)
-    file_paths = get_file_paths(raw_db, ["txt", "pdf"])
+    file_paths = get_file_paths(raw_db, file_types)
     print(f"Found {len(file_paths)} files to process.\n")
 
     # Initialize embedding model

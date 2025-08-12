@@ -1,0 +1,28 @@
+# LLM configuration settings
+
+# LLM model to use with Ollama
+llm_model: "llama3.1:8b"
+
+# Whether to use OpenAI (true) or Ollama (false)
+use_openai: false
+
+# OpenAI model to use if use_openai is true
+openai_model: "gpt-4o"
+
+# Prompt template for the RAG system
+prompt: |
+  DOCUMENTS:
+  
+  {data}
+  
+  
+  QUESTION:
+  {query}
+  
+  
+  INSTRUCTIONS:
+  Answer the users QUESTION using the DOCUMENTS text above.
+  Keep your answer ground in the facts of the DOCUMENT.
+  If the DOCUMENT doesn't contain the facts to answer the QUESTION return NO Answer found
+
+record_data: true
