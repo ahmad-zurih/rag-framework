@@ -141,8 +141,9 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
     * `model_name`: This specifies the pre-trained model used for creating the embedding vectors
     * `vector_db`: This defines the type of vector database to use. Currently, only `'chromaDB'` is supported
     * `collection_name`: This specifies the name of the collection within the vector database
-    * `data_language`: This specifies the language of your data (e.g., "english", "french", etc.)
-    * `chunk_size`: This determines the number of sentences processed together when creating the vector database
+    * `data_language`: This specifies the language of your data (e.g., "english", "french", etc.) Choose the one that matches your data.
+    * `chunk_size`: This determines the number of sentences processed together when creating the vector database. You can adjust this value based on your data size and hardware capabilities.
+    * `overlap_size`: This determines the number of sentences overlaped between the chunk and the next chunk. This is useful to not lose semantic of chunks when splitting the text. The value must be lower than the chunk_size.
 
 6.  **Create vector database:**
 
