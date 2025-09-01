@@ -6,7 +6,7 @@
     <h1>Vector Database Search</h1>
     <p class="subtitle">Empower your queries with state-of-the-art retrieval capabilities</p>
 
-    <form action="" method="post" class="search-form" id="search-form">
+    <form id="search-form" class="search-form">
         <div class="form-group">
             {% csrf_token %}
             <label for="query" class="form-label">Enter your query:</label>
@@ -16,7 +16,6 @@
                 id="query" 
                 name="query" 
                 placeholder="Search your DB" 
-                value="{{ query }}"
                 required
             >
             <br>
@@ -43,32 +42,79 @@
         <div class="spinner"></div>
     </div>
 
-    {% if submitted %}
-        <div class="results">
-            <h2>Search Results</h2>
-            {% if data %}
-                {% for result in data %}
-                    <div class="result-item">
-                        <p><strong>Content:</strong> {{ result.content }}</p>
-                        <p><strong>File Name:</strong> {{ result.file_name }}</p>
-                        <p><strong>Chunk ID:</strong> {{ result.chunk_id }}</p>
-                        <p><strong>Distance:</strong> {{ result.distance }}</p>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p class="no-results">No results found or an error occurred during retrieval.</p>
-            {% endif %}
-        </div>
-    {% endif %}
+    <!-- Results container -->
+    <div id="results-container" style="display:none;">
+        <h2>Search Results</h2>
+        <div id="results-content"></div>
+    </div>
+
+    <!-- No results message -->
+    <div id="no-results" style="display:none; text-align:center; margin-top:20px;">
+        <p class="no-results">No results found or an error occurred during retrieval.</p>
+    </div>
 </div>
 
 <script>
-// Show loading indicator on form submission
-document.getElementById('search-form').addEventListener('submit', function() {
+document.getElementById('search-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
     const loadingIndicator = document.getElementById('loading-indicator');
     const searchButton = document.getElementById('search-button');
+    const resultsContainer = document.getElementById('results-container');
+    const noResultsDiv = document.getElementById('no-results');
+    const resultsContent = document.getElementById('results-content');
+    
+    // Show loading, hide previous results
     loadingIndicator.style.display = 'block';
     searchButton.disabled = true; // Disable the button to prevent multiple clicks
+    resultsContainer.style.display = 'none';
+    noResultsDiv.style.display = 'none';
+    
+    const formData = new FormData();
+    formData.append('query', document.getElementById('query').value);
+    formData.append('number_results', document.getElementById('n_results').value);
+    formData.append('csrfmiddlewaretoken', 
+        document.querySelector('[name=csrfmiddlewaretoken]').value);
+    
+    fetch("{% url 'search_documents' %}", {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        loadingIndicator.style.display = 'none';
+        searchButton.disabled = false;
+        
+        if (data.error) {
+            noResultsDiv.style.display = 'block';
+            noResultsDiv.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+        } else if (data.documents && data.documents.length > 0) {
+            resultsContainer.style.display = 'block';
+            let html = '';
+            data.documents.forEach(result => {
+                html += `
+                    <div class="result-item">
+                        <p><strong>Content:</strong> ${result.content}</p>
+                        <p><strong>File Name:</strong> ${result.file_name}</p>
+                        <p><strong>Chunk ID:</strong> ${result.chunk_id}</p>
+                        <p><strong>Distance:</strong> ${result.distance}</p>
+                    </div>
+                `;
+            });
+            resultsContent.innerHTML = html;
+        } else {
+            // No results found
+            noResultsDiv.style.display = 'block';
+            noResultsDiv.innerHTML = '<p class="no-results">No results found for your query.</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        loadingIndicator.style.display = 'none';
+        searchButton.disabled = false;
+        noResultsDiv.style.display = 'block';
+        noResultsDiv.innerHTML = `<p style="color: red;">Network error: ${error.message}</p>`;
+    });
 });
 </script>
 {% endblock %}
