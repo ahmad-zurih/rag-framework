@@ -42,7 +42,8 @@ def search_documents(request):
         response_data = {
             'query': query,
             'documents': search_data['documents'],
-            'total_results': len(search_data['documents'])
+            'total_results': len(search_data['documents']),
+            'formatted_data': search_data['formatted_data']
         }
         
         return JsonResponse(response_data)
