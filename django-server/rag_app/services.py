@@ -141,7 +141,7 @@ class ChatService:
             else:
                 responder = Responder(
                     data=search_data['formatted_data'],
-                    model=self.self.llm_config['llm_model'],
+                    model=self.llm_config['llm_model'],
                     prompt_template=self.llm_config['prompt'],
                     query=query
                 )
