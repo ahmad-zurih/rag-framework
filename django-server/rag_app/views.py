@@ -30,7 +30,7 @@ def search_documents(request):
     """
     try:
         query = request.POST.get('query', '').strip()
-        number_results = int(request.POST.get('number_results', 5))
+        number_results = int(request.POST.get('number_results'))
         
         if not query:
             return JsonResponse({'error': 'Query is required'}, status=400)
@@ -92,11 +92,11 @@ def chat_api(request):
         if request.content_type == 'application/json':
             data = json.loads(request.body)
             query = data.get('query', '').strip()
-            n_results = data.get('n_results', 5)
+            n_results = data.get('n_results')
         else:
             # Fallback to form data
             query = request.POST.get('query', '').strip()
-            n_results = int(request.POST.get('n_results', 5))
+            n_results = int(request.POST.get('n_results'))
         
         if not query:
             return JsonResponse({'error': 'Query is required'}, status=400)

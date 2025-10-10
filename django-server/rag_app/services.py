@@ -33,7 +33,7 @@ class ChatService:
         if self.llm_config['use_openai']:
             self.openai_client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
     
-    def search_documents(self, query: str, n_results: int = 5) -> Dict[str, Any]:
+    def search_documents(self, query: str, n_results: int ) -> Dict[str, Any]:
         """
         Search for relevant documents based on query.
         """
@@ -68,7 +68,7 @@ class ChatService:
             'raw_results': search_results
         }
     
-    def generate_sync_response(self, query: str, n_results: int = 5) -> Dict[str, Any]:
+    def generate_sync_response(self, query: str, n_results: int ) -> Dict[str, Any]:
         """
         Generate a synchronous response for the given query.
         
@@ -109,7 +109,7 @@ class ChatService:
             'model_used': self.llm_config['openai_model'] if self.llm_config['use_openai'] else self.llm_config['llm_model']
         }
     
-    def generate_stream_response(self, query: str, n_results: int = 5) -> Generator[str, None, None]:
+    def generate_stream_response(self, query: str, n_results: int ) -> Generator[str, None, None]:
         """
         Generate a streaming response for the given query.
         
