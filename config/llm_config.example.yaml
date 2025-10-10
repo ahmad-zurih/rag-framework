@@ -9,6 +9,9 @@ use_openai: false
 # OpenAI model to use if use_openai is true
 openai_model: "gpt-4o"
 
+# Number of documents to retrieve for generating a response
+number_docs_response: 12
+
 # Prompt template for the RAG system
 prompt: |
   DOCUMENTS:

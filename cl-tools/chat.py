@@ -24,6 +24,7 @@ llm_model = llm_config['llm_model']
 prompt = llm_config['prompt']
 openai_model = llm_config['openai_model']
 use_openai = llm_config['use_openai']
+number_docs_response = llm_config['number_docs_response']
 
 # Extract DB location from environment (defined in .env file)
 db_directory = os.environ.get("FRAG_DB_DIRECTORY")
@@ -37,7 +38,7 @@ def main():
         retriever = ChromaRetriever(embedding_model=model_name, 
                                 db_path=db_directory, 
                                 db_collection=collection_name, 
-                                n_results=5)
+                                n_results=number_docs_response)
         
         user_query = str(input("Ask a question. Type quit to exit:  "))
         if user_query.lower() == "quit":
