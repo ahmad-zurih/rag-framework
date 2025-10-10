@@ -70,8 +70,7 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
 ├── readme.md
 ├── requirement.txt
 ├── retrieval
-│   ├── main.py
-│   └── simple_query.py
+│   └── main.py
 └── tests
 ```
 

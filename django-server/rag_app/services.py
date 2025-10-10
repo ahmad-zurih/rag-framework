@@ -18,6 +18,7 @@ class ChatService:
         self.llm_config = get_llm_config()
         # Extract configuration values
         self.db_directory = os.environ.get("FRAG_DB_DIRECTORY")
+        self.number_docs_response = self.llm_config['number_docs_response']
         
         
         # Initialize retriever
@@ -25,7 +26,7 @@ class ChatService:
             embedding_model=self.embedding_config['model_name'],
             db_path=self.db_directory,
             db_collection=self.embedding_config['collection_name'],
-            n_results=5
+            n_results=self.number_docs_response
         )
         
         # Initialize OpenAI client if needed
