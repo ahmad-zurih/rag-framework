@@ -9,6 +9,7 @@ from django.views.decorators.http import require_POST
 from django.http import StreamingHttpResponse, JsonResponse
 from django.conf import settings
 from .services import ChatService
+from config.config_loader import get_embedding_config, get_llm_config
 
 # Initialize the chat service
 chat_service = ChatService()
@@ -34,6 +35,8 @@ def search_documents(request):
         
         if not query:
             return JsonResponse({'error': 'Query is required'}, status=400)
+        if not number_results or number_results <= 0:
+            return JsonResponse({'error': 'number_results is required'}, status=400)
         
         # Use the service to search documents
         search_data = chat_service.search_documents(query, number_results)
@@ -64,8 +67,10 @@ def chat_stream(request):
             return JsonResponse({'error': 'Query is required'}, status=400)
         
         # Use the service to generate streaming response
+        llm_config = get_llm_config()
+        number_docs_response = llm_config['number_docs_response']
         def response_generator():
-            for chunk in chat_service.generate_stream_response(query):
+            for chunk in chat_service.generate_stream_response(query, n_results=number_docs_response):
                 yield chunk
         
         response = StreamingHttpResponse(
