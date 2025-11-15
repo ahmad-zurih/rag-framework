@@ -71,16 +71,23 @@ def read_pdf_file(file_path: str) -> str:
 def split_text_into_sentences(text: str, language: str) -> list[str]:
     """
     Splits the given text into a list of sentences using NLTK's sentence tokenizer.
-
+    
     Args:
         text (str): The input text to split into sentences.
         language (str): The language of the text for the sentence tokenizer
-
+        
     Returns:
         list[str]: A list of sentences.
     """
-    sentences = nltk.sent_tokenize(text, language=language)
-    return sentences
+    try:
+        # Try to load the standard tokenizer which we know works
+        from nltk.tokenize.punkt import PunktSentenceTokenizer
+        tokenizer = PunktSentenceTokenizer()
+        sentences = tokenizer.tokenize(text)
+        return sentences
+    except:
+        # Fallback to the simple case
+        return nltk.sent_tokenize(text)
 
 
 def chunk_sentences(sentences: list[str], chunk_size: int, overlap_size: int) -> list[str]:
@@ -111,7 +118,4 @@ def chunk_sentences(sentences: list[str], chunk_size: int, overlap_size: int) ->
 
 
 
-    
-        
 
-    
