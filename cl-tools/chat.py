@@ -11,14 +11,15 @@ from retrieval.main import ChromaRetriever
 from config.embedding_config import model_name, db_directory, collection_name
 
 from llm.main import Responder, OpenAIResponder
-from config.llm_config import llm_model, prompt, openai_model, use_openai
+from config.llm_config import llm_model, prompt, openai_model, use_openai, openai_base_url
 
 
 load_dotenv(os.path.join(parent_dir, '.env'))
 
 
 openai_client = OpenAI(
-    api_key=os.environ.get("OPENAI_API_KEY"),  
+    api_key=os.environ.get("OPENAI_API_KEY"),
+    base_url=openai_base_url  
 )
 
 def main():

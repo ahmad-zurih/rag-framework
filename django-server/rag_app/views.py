@@ -8,7 +8,7 @@ from retrieval.main import ChromaRetriever
 from config.embedding_config import model_name, db_directory, collection_name
 
 from llm.main import Responder, OpenAIResponder
-from config.llm_config import llm_model, prompt, use_openai, openai_model, record_data
+from config.llm_config import llm_model, prompt, use_openai, openai_model, record_data, openai_base_url
 from .models import ChatLog
 from datetime import datetime
 
@@ -109,6 +109,7 @@ def chat_stream(request):
         load_dotenv(os.path.join(settings.BASE_DIR.parent, '.env'))
         openai_client = OpenAI(
             api_key=os.environ.get("OPENAI_API_KEY"),
+            base_url=openai_base_url
         )
         responder = OpenAIResponder(
             data=formatted_result,
