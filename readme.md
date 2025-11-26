@@ -10,7 +10,11 @@ Contributions, feedback, and suggestions are welcome as we work toward a stable 
 
 # RAG Framework
 
-This repository contains a Retrieval-Augmented Generation (RAG) framework for efficient information retrieval and natural language generation. The framework supports both Ollama (running local, open-source LLMs) and OpenAI (for cloud-based LLMs like gpt-3.5-turbo, gpt-4, etc.)
+This repository contains a Retrieval-Augmented Generation (RAG) framework for efficient information retrieval and natural language generation. The framework is designed for maximum flexibility, supporting:
+
+    *  Embeddings: Local generation (via SentenceTransformers) or API-based generation (OpenAI, GPUStack, etc.).
+
+    *  LLM Generation: Local models (via Ollama) or Cloud/API-based models (OpenAI, GPUStack, etc.).
 
 
 ## How to Get Started
@@ -19,7 +23,7 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
 **Prerequisites:**
 
 *   Ollama server. Install from [https://ollama.com/](https://ollama.com/)
-*   For using openai api, get api key and store it in .env file in the root level of the directory
+*   For using openai api or openai api compatable platform, get api key and store it in .env file in the root level of the directory. See .env.example 
 
 **Steps:**
 
@@ -44,7 +48,7 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
 
 4.  **Add a vector database:**
 
-    *   Edit the file `config/embedding_config.py` where you can add the path for the data that needs to be used for the embedding vector database.
+    *   Edit the file `config/embedding_config.py`. This file controls how your documents are processed and how embeddings are generated (either locally or via API).
 
     Here's a breakdown of the editable parameters in the file:
 
@@ -55,7 +59,8 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
     *   `data_language`: This specifies the language of your data. The file provides a list of supported languages. Choose the one that matches your data.
     *   `db_directory`: This defines the location where the vector database will be stored. By default, it's set to the user's home directory under a `.db` folder. You can change this path to a different location if needed.
     *   `chunk_size`: This determines the number of sentences processed together when creating the vector database. You can adjust this value based on your data size and hardware capabilities.
-     *   `overlap_size`: This determines the number of sentences overlaped between the chunk and the next chunk. This is useful to not lose semantic of chunks when splitting the text. The value must be lower than the chunk_size.
+    *   `overlap_size`: This determines the number of sentences overlaped between the chunk and the next chunk. This is useful to not lose semantic of chunks when splitting the text. The value must be lower than the chunk_size.
+    *    `use_openai_embeddings`: This allows you to choose if choosing openai api for embedding or local sentence transformer model is set to True. If set to True, it will ignore `model_name` and uses `openai_embedding_model` instead
 
     Example `embedding_config.py` (Remember to adapt these values to your specific setup):
 
@@ -63,6 +68,11 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
     import os
 
     model_name = "Lajavaness/bilingual-embedding-large"  
+
+    # settings if using openai embeddings api or any openai compatible embedding api
+    use_openai_embeddings = False # set to True if you want to use openai embeddings api
+    openai_embedding_model = "embedding-model-name" # openai embedding model to use if use_openai_embeddings is set to True
+    openai_embedding_base_url = 'https://api.openai.com/v1' # or openai compaible api base url 
 
     vector_db = "chromaDB"
 
@@ -127,7 +137,7 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
     python django-server/manage.py runserver
     ```
 
-    *   This will start the Django development server, allowing you to access the web interface for chat and search (usually at `http://127.0.0.1:8000/` in your web browser).
+    *   This will start the Django development server, allowing you to access the web interface for chat and search (usually at `http://127.0.0.1:8000/` in your web browser). Check Django deployment for deployment
 
     *   To use the command-line tools:
 
