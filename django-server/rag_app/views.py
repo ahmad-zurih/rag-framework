@@ -4,8 +4,8 @@ from django.views.decorators.http import require_POST
 from django.http import StreamingHttpResponse, JsonResponse
 from django.conf import settings
 
-from retrieval.main import ChromaRetriever
-from config.embedding_config import model_name, db_directory, collection_name
+from retrieval.main import ChromaRetriever, OpenAIChromaRetriever
+from config.embedding_config import model_name, db_directory, collection_name, use_openai_embeddings, openai_embedding_model, openai_embedding_base_url
 
 from llm.main import Responder, OpenAIResponder
 from config.llm_config import llm_model, prompt, use_openai, openai_model, record_data, openai_base_url
@@ -32,31 +32,47 @@ def search(request):
         query = request.POST["query"]
         n_results = int(request.POST["n_results"])
         submitted = True
-
-        try:
-            retriever = ChromaRetriever(
-                embedding_model=model_name, 
-                db_path=db_directory, 
-                db_collection=collection_name, 
-                n_results=n_results
+        if use_openai_embeddings:
+            load_dotenv(os.path.join(settings.BASE_DIR.parent, '.env'))
+            openai_client = OpenAI(
+                api_key=os.environ.get("OPENAI_API_KEY"),
+                base_url=openai_embedding_base_url
             )
-            raw_results = retriever.retrieve(query)
+            try:
+                retriever = OpenAIChromaRetriever(
+                    openai_client=openai_client,
+                    embedding_model=openai_embedding_model,
+                    db_path=db_directory,
+                    db_collection=collection_name,
+                    n_results=n_results
+                )
+            except Exception as e:
+                print(f"Error during retrieval: {e}")
+        else:
+            try:
+                retriever = ChromaRetriever(
+                    embedding_model=model_name, 
+                    db_path=db_directory, 
+                    db_collection=collection_name, 
+                    n_results=n_results
+                )
+            except Exception as e:
+                print(f"Error during retrieval: {e}")
+        raw_results = retriever.retrieve(query)
 
-            # Process raw results into a template-friendly format
-            documents = raw_results.get("documents", [[]])[0]
-            metadatas = raw_results.get("metadatas", [[]])[0]
-            distances = raw_results.get("distances", [[]])[0]
+        # Process raw results into a template-friendly format
+        documents = raw_results.get("documents", [[]])[0]
+        metadatas = raw_results.get("metadatas", [[]])[0]
+        distances = raw_results.get("distances", [[]])[0]
 
-            for doc, metadata, distance in zip(documents, metadatas, distances):
-                formatted_results.append({
-                    "content": doc,
-                    "file_name": metadata.get("file_name", "N/A"),
-                    "chunk_id": metadata.get("chunk_id", "N/A"),
-                    "distance": distance,
-                })
+        for doc, metadata, distance in zip(documents, metadatas, distances):
+            formatted_results.append({
+                "content": doc,
+                "file_name": metadata.get("file_name", "N/A"),
+                "chunk_id": metadata.get("chunk_id", "N/A"),
+                "distance": distance,
+            })
 
-        except Exception as e:
-            print(f"Error during retrieval: {e}")
         footer_class = 'footer-flex' if submitted else 'footer-absolute'
 
         return render(
@@ -84,12 +100,26 @@ def chat_stream(request):
         return JsonResponse({"error": "No query provided"}, status=400)
 
     # -- 1) Retrieve
-    retriever = ChromaRetriever(
-        embedding_model=model_name, 
-        db_path=db_directory, 
-        db_collection=collection_name, 
-        n_results=5
-    )
+    if use_openai_embeddings:
+        load_dotenv(os.path.join(settings.BASE_DIR.parent, '.env'))
+        openai_client = OpenAI(
+            api_key=os.environ.get("OPENAI_API_KEY"),
+            base_url=openai_embedding_base_url
+        )
+        retriever = OpenAIChromaRetriever(
+            openai_client=openai_client,
+            embedding_model=openai_embedding_model,
+            db_path=db_directory,
+            db_collection=collection_name,
+            n_results=5
+        )
+    else:
+        retriever = ChromaRetriever(
+            embedding_model=model_name, 
+            db_path=db_directory, 
+            db_collection=collection_name, 
+            n_results=5
+        )
     search_results = retriever.retrieve(user_query)
 
     formatted_result = retriever.format_results_for_prompt(search_results)
