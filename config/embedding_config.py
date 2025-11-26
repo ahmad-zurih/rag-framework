@@ -1,11 +1,16 @@
 # this file containst default values related to embeddings and creating vectordb
 import os
 
-model_name = "Lajavaness/bilingual-embedding-large"  #choose any embedding model you prefer
+model_name = "Lajavaness/bilingual-embedding-large"  #choose any embedding model you prefer that runs in sentence-transformers
+
+# settings if using openai embeddings api or any openai compatible embedding api
+use_openai_embeddings = False # set to True if you want to use openai embeddings api
+openai_embedding_model = "embedding-model-name" # openai embedding model to use if use_openai_embeddings is set to True
+openai_embedding_base_url = 'https://api.openai.com/v1' # openai base url. In case you are using a different base url for openai compatible api
 
 vector_db = "chromaDB" # Allowed Values ['chromaDB', 'FAISS']. Only ChromaDB works now
 
-collection_name = "my_collection"
+collection_name = "my_collection" #name of the collection in the vector DB
 
 raw_db = "/path/to/data"  #root directory to where raw documents are stored
 
