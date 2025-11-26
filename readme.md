@@ -24,6 +24,7 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
 
 *   Ollama server. Install from [https://ollama.com/](https://ollama.com/)
 *   For using openai api or openai api compatable platform, get api key and store it in .env file in the root level of the directory. See .env.example 
+*   python 3.12
 
 **Steps:**
 
