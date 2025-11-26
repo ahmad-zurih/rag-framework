@@ -1,13 +1,15 @@
 import os
 import sys
 import argparse
+from dotenv import load_dotenv
+from openai import OpenAI
 
 # Add the parent directory to sys.path
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(parent_dir)
 
-from retrieval.main import ChromaRetriever
-from config.embedding_config import model_name, db_directory, collection_name
+from retrieval.main import ChromaRetriever, OpenAIChromaRetriever
+from config.embedding_config import model_name, db_directory, collection_name, use_openai_embeddings, openai_embedding_model, openai_embedding_base_url
 
 
 def create_argument_parser() -> argparse.ArgumentParser:
@@ -26,7 +28,22 @@ def main():
     parser = create_argument_parser()
     args = parser.parse_args()
 
-    retriever = ChromaRetriever(embedding_model=model_name, 
+    if use_openai_embeddings:
+            load_dotenv(os.path.join(parent_dir, '.env'))
+            openai_client = OpenAI(
+                api_key=os.environ.get("OPENAI_API_KEY"),
+                base_url=openai_embedding_base_url
+            )
+
+            retriever = OpenAIChromaRetriever(
+                openai_client=openai_client,
+                embedding_model=openai_embedding_model,
+                db_path=db_directory,
+                db_collection=collection_name,
+                n_results=args.number_results
+                )
+    else:    
+        retriever = ChromaRetriever(embedding_model=model_name, 
                                 db_path=db_directory, 
                                 db_collection=collection_name, 
                                 n_results=args.number_results)

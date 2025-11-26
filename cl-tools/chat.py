@@ -7,8 +7,8 @@ from openai import OpenAI
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(parent_dir)
 
-from retrieval.main import ChromaRetriever
-from config.embedding_config import model_name, db_directory, collection_name
+from retrieval.main import ChromaRetriever, OpenAIChromaRetriever
+from config.embedding_config import model_name, db_directory, collection_name, use_openai_embeddings, openai_embedding_model, openai_embedding_base_url
 
 from llm.main import Responder, OpenAIResponder
 from config.llm_config import llm_model, prompt, openai_model, use_openai, openai_base_url
@@ -24,7 +24,22 @@ openai_client = OpenAI(
 
 def main():
     while True:
-        retriever = ChromaRetriever(embedding_model=model_name, 
+        if use_openai_embeddings:
+            load_dotenv(os.path.join(parent_dir, '.env'))
+            openai_client = OpenAI(
+                api_key=os.environ.get("OPENAI_API_KEY"),
+                base_url=openai_embedding_base_url
+            )
+
+            retriever = OpenAIChromaRetriever(
+                openai_client=openai_client,
+                embedding_model=openai_embedding_model,
+                db_path=db_directory,
+                db_collection=collection_name,
+                n_results=5
+                )
+        else:
+            retriever = ChromaRetriever(embedding_model=model_name, 
                                 db_path=db_directory, 
                                 db_collection=collection_name, 
                                 n_results=5)
