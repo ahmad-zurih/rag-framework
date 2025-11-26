@@ -78,11 +78,18 @@ class Responder:
         
     def _check_model(self):
         """
-        Herper function to check if the specified model is available. If not, attempt to download it.
+        Helper function to check if the specified model is available.
+        If not, attempt to download it.
         """
         try:
-            models = ollama.list()['models']
-            model_names = [model['name'] for model in models]
+            resp = ollama.list()
+            # resp is a ListResponse (SubscriptableBaseModel)
+            models = resp.get('models', [])  # works both as dict-like and attribute
+            model_names = [
+                m.get('name') or m.get('model')
+                for m in models
+                if (m.get('name') or m.get('model')) is not None
+            ]
         except Exception as e:
             raise RuntimeError(f"Failed to retrieve the list of models: {e}")
 
@@ -91,10 +98,16 @@ class Responder:
             try:
                 ollama.pull(self.model)
                 print(f"Successfully downloaded model '{self.model}'.")
-            except ollama.ResponseError as e:
-                raise ValueError(f"Model '{self.model}' does not exist in the Ollama repository. Please check the model name.")
+            except ollama.ResponseError:
+                raise ValueError(
+                    f"Model '{self.model}' does not exist in the Ollama repository. "
+                    f"Please check the model name."
+                )
             except Exception as e:
-                raise RuntimeError(f"An error occurred while downloading the model '{self.model}': {e}")
+                raise RuntimeError(
+                    f"An error occurred while downloading the model '{self.model}': {e}"
+                )
+
 
 
 class OpenAIResponder:
