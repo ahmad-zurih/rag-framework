@@ -12,9 +12,9 @@ Contributions, feedback, and suggestions are welcome as we work toward a stable 
 
 This repository contains a Retrieval-Augmented Generation (RAG) framework for efficient information retrieval and natural language generation. The framework is designed for maximum flexibility, supporting:
 
-    *  Embeddings: Local generation (via SentenceTransformers) or API-based generation (OpenAI, GPUStack, etc.).
+*  Embeddings: Local generation (via SentenceTransformers) or API-based generation (OpenAI, GPUStack, etc.).
 
-    *  LLM Generation: Local models (via Ollama) or Cloud/API-based models (OpenAI, GPUStack, etc.).
+*  LLM Generation: Local models (via Ollama) or Cloud/API-based models (OpenAI, GPUStack, etc.).
 
 
 ## How to Get Started
@@ -143,4 +143,3 @@ This repository contains a Retrieval-Augmented Generation (RAG) framework for ef
 
     *   The functionalities are likely defined in the `cl-tools` directory (chat.py and search.py). You can refer to those files to understand how to use the command-line interface for chat and search.
 
-![RAG Framework Diagram](docs/diagram/RAG_Framework.svg)
