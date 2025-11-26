@@ -124,9 +124,7 @@ def main():
             else:
                 # Local SentenceTransformer Call
                 embedding = embedding_model.encode(
-                    chunk_text,
-                    truncation=True,
-                    max_length=max_seq_length
+                    chunk_text
                 ).tolist() # Convert numpy array to list for ChromaDB
 
             # Create a unique ID for each chunk

@@ -1,6 +1,6 @@
 Django==5.2.8
 pdfplumber==0.11.8
-sentence-transformers==3.2.1
+sentence-transformers==5.1.2
 chromadb==0.5.18
 nltk==3.9.1
 ollama==0.3.3
