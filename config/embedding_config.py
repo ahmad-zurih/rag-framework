@@ -12,6 +12,7 @@ vector_db = "chromaDB" # Allowed Values ['chromaDB', 'FAISS']. Only ChromaDB wor
 
 collection_name = "my_collection" #name of the collection in the vector DB
 
+# for windows make the path string raw string. example: raw_db = r"C:\path\to\data"
 raw_db = "/path/to/data"  #root directory to where raw documents are stored
 
 data_language = "english" #variable for the tokenizer. Supported language = ['czech', 'danish', 'dutch', 'english', 'estonian', 'finnish', 'french', 'german' ,'greek' ,'italian' ,'norwegian', 'polish' ,'portuguese', 'russian' ,'slovene','spanish', 'swedish', 'turkish']
